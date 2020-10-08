@@ -1,8 +1,3 @@
-import Vue from 'vue'
-import App from './App.vue'
+import DemoComponent from './components/DemoComponent'
 
-Vue.config.productionTip = false
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+export default DemoComponent
