@@ -1,8 +1,8 @@
 <template>
-  <div class="cte-text__container">
+  <div class="cte-datetime__container">
     <div
       v-if="!editing"
-      class="cte-text__label"
+      class="cte-datetime__label"
       @click="startEditing"
     >
       {{ value }}
@@ -11,7 +11,8 @@
       v-else
       ref="textbox"
       v-model="internalValue"
-      class="cte-text__input"
+      class="cte-datetime__input"
+      type="datetime-local"
       @blur="stopEditing"
     >
   </div>
@@ -19,7 +20,7 @@
 
 <script>
 export default {
-  name: 'CteText',
+  name: 'CteDateTime',
   props: {
     value: {
       type: String,
@@ -28,7 +29,7 @@ export default {
   },
   data () {
     return {
-      editing: false,
+      editing: true,
       internalValue: this.value
     }
   },
@@ -54,19 +55,20 @@ export default {
 </script>
 
 <style>
-.cte-text__container {
+.cte-datetime__container {
   display: inline-block;
   font-size: 16px;
   font-family: Arial;
+  width: 250px;
 }
 
-.cte-text__label {
-  padding: 3px 4px;
+.cte-datetime__label {
+  padding: 8px 4px;
   font-size: inherit;
   font-family: inherit;
 }
 
-.cte-text__input {
+.cte-datetime__input {
   font-size: inherit;
   font-family: inherit;
   width: 100%;
