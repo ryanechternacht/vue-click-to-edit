@@ -28,7 +28,7 @@ export default {
   },
   data () {
     return {
-      editing: true,
+      editing: false,
       internalValue: this.value
     }
   },
@@ -44,10 +44,10 @@ export default {
         this.$refs.textbox.focus()
       })
     },
-    // TODO support "save" parameter
     stopEditing () {
       this.editing = false
       this.$emit('input', this.internalValue)
+      this.$emit('editingComplete', { newValue: this.internalValue })
     }
   }
 }
