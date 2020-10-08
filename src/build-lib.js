@@ -1,7 +1,7 @@
-import DemoComponent from './components/DemoComponent'
+import CateDateTime from './components/CateDateTime'
 import CteText from './components/CteText'
 
 export {
-  CteText,
-  DemoComponent
+  CateDateTime,
+  CteText
 }

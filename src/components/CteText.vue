@@ -11,6 +11,7 @@
       v-else
       ref="textbox"
       v-model="internalValue"
+      v-bind="$attrs"
       class="cte-text__input"
       @blur="stopEditing"
     >
@@ -20,6 +21,7 @@
 <script>
 export default {
   name: 'CteText',
+  inheritAttrs: false,
   props: {
     value: {
       type: String,

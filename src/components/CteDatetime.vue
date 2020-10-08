@@ -5,12 +5,13 @@
       class="cte-datetime__label"
       @click="startEditing"
     >
-      {{ value }}
+      {{ dateFormatted }}
     </div>
     <input
       v-else
       ref="textbox"
       v-model="internalValue"
+      v-bind="$attrs"
       class="cte-datetime__input"
       type="datetime-local"
       @blur="stopEditing"
@@ -19,18 +20,30 @@
 </template>
 
 <script>
+import { parseISO, format } from 'date-fns'
+
 export default {
   name: 'CteDateTime',
+  inheritAttrs: false,
   props: {
     value: {
       type: String,
-      default: ''
+      default: null
+    },
+    displayFormat: {
+      type: String,
+      default: 'MM/dd/yyyy, hh:mm aa'
     }
   },
   data () {
     return {
       editing: true,
       internalValue: this.value
+    }
+  },
+  computed: {
+    dateFormatted () {
+      return format(parseISO(this.internalValue), this.displayFormat)
     }
   },
   watch: {
@@ -63,9 +76,10 @@ export default {
 }
 
 .cte-datetime__label {
-  padding: 8px 4px;
+  padding: 5px 4px;
   font-size: inherit;
   font-family: inherit;
+  letter-spacing: .03em;
 }
 
 .cte-datetime__input {
