@@ -1,20 +1,22 @@
 <template>
-  <div class="cte-text__container">
+  <div class="cte-select__container">
     <div
       v-if="!editing"
-      class="cte-text__label"
+      class="cte-select__label"
       @click="startEditing"
     >
       {{ value }}
     </div>
-    <input
+    <select
       v-else
-      ref="textbox"
+      ref="select"
       v-model="internalValue"
       v-bind="$attrs"
-      class="cte-text__input"
+      class="cte-select__select"
       @blur="stopEditing"
     >
+      <slot />
+    </select>
   </div>
 </template>
 
@@ -43,7 +45,7 @@ export default {
     startEditing () {
       this.editing = true
       this.$nextTick(() => {
-        this.$refs.textbox.focus()
+        this.$refs.select.focus()
       })
     },
     stopEditing () {
@@ -56,19 +58,19 @@ export default {
 </script>
 
 <style>
-.cte-text__container {
+.cte-select__container {
   display: inline-block;
   font-size: 16px;
   font-family: Times;
 }
 
-.cte-text__label {
+.cte-select__label {
   padding: 3px 4px;
   font-size: inherit;
   font-family: inherit;
 }
 
-.cte-text__input {
+.cte-select__select {
   font-size: inherit;
   font-family: inherit;
   width: 100%;

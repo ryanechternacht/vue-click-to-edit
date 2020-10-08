@@ -37,7 +37,7 @@ export default {
   },
   data () {
     return {
-      editing: true,
+      editing: false,
       internalValue: this.value
     }
   },
@@ -71,7 +71,7 @@ export default {
 .cte-datetime__container {
   display: inline-block;
   font-size: 16px;
-  font-family: Arial;
+  font-family: Times;
   width: 250px;
 }
 
