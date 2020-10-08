@@ -9,7 +9,7 @@
     <input
       v-else
       ref="textbox"
-      :value="value"
+      v-model="internalValue"
       @blur="stopEditing"
     >
   </div>
@@ -26,17 +26,26 @@ export default {
   },
   data () {
     return {
-      editing: false
+      editing: false,
+      internalValue: this.value
+    }
+  },
+  watch: {
+    value () {
+      this.internalValue = this.value
     }
   },
   methods: {
     startEditing () {
       this.editing = true
-      this.$refs.textbox.focus()
+      this.$nextTick(() => {
+        this.$refs.textbox.focus()
+      })
     },
     // TODO support "save" parameter
     stopEditing () {
       this.editing = false
+      this.$emit('input', this.internalValue)
     }
   }
 }
