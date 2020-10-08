@@ -1,15 +1,17 @@
 <template>
-  <div>
-    <span
+  <div class="cte__container">
+    <div
       v-if="!editing"
+      class="cte__text"
       @click="startEditing"
     >
       {{ value }}
-    </span>
+    </div>
     <input
       v-else
       ref="textbox"
       v-model="internalValue"
+      class="cte__input"
       @blur="stopEditing"
     >
   </div>
@@ -26,7 +28,7 @@ export default {
   },
   data () {
     return {
-      editing: false,
+      editing: true,
       internalValue: this.value
     }
   },
@@ -52,5 +54,22 @@ export default {
 </script>
 
 <style>
+.cte__container {
+  display: inline-block;
+  font-size: 16px;
+  font-family: Arial;
+}
 
+.cte__text {
+  padding: 3px 4px;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.cte__input {
+  font-size: inherit;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
 </style>
