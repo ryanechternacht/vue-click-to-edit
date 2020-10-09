@@ -1,6 +1,7 @@
 <template>
   <base-cte
     :value="internalValue"
+    :allow-cancel="allowCancel"
     @editingCompleted="editingCompleted"
     @focusInput="focusInput"
   >
@@ -36,6 +37,10 @@ export default {
     displayFormat: {
       type: String,
       default: 'MM/dd/yyyy, hh:mm aa'
+    },
+    allowCancel: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

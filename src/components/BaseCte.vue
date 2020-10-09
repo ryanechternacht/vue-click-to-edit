@@ -17,10 +17,6 @@
       class="cte-base__input"
     >
       <slot name="edit-component" />
-      <input
-        type="text"
-        style="width: 100px"
-      >
       <button
         v-if="allowCancel"
         class="cte-base__cancel"

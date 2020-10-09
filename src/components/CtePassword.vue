@@ -1,6 +1,7 @@
 <template>
   <base-cte
     :value="internalValue"
+    :allow-cancel="allowCancel"
     @editingCompleted="editingCompleted"
     @focusInput="focusInput"
   >
@@ -26,6 +27,12 @@ import BaseCte from './BaseCte'
 export default {
   components: {
     BaseCte
+  },
+  props: {
+    allowCancel: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
