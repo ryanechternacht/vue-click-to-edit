@@ -5,15 +5,15 @@
     @focusInput="focusInput"
   >
     <template #display-component>
-      {{ dateFormatted }}
+      ********
     </template>
 
     <template #edit-component="{ blur }">
       <input
         ref="input"
         v-model="internalValue"
-        type="datetime-local"
-        class="cte-datetime__input"
+        class="cte-password__input"
+        type="password"
         v-bind="$attrs"
         @blur="blur"
       >
@@ -23,37 +23,20 @@
 
 <script>
 import BaseCte from './BaseCte'
-import { parseISO, format } from 'date-fns'
 
 export default {
   components: {
     BaseCte
-  },
-  props: {
-    value: {
-      type: String,
-      default: ''
-    },
-    displayFormat: {
-      type: String,
-      default: 'MM/dd/yyyy, hh:mm aa'
-    }
   },
   data () {
     return {
       internalValue: this.value
     }
   },
-  computed: {
-    dateFormatted () {
-      return format(parseISO(this.internalValue), this.displayFormat)
-    }
-  },
   methods: {
     editingComplete ({ committed }) {
       if (committed) {
-        this.$emit('input', this.internalValue)
-        this.$emit('editingComplete', { newValue: this.internalValue })
+        this.$emit('editingComplete', {})
       }
     },
     focusInput () {
@@ -64,19 +47,14 @@ export default {
 </script>
 
 <style scoped>
-.cte-datetime__input {
+.cte-password__input {
   font-size: inherit;
   font-family: inherit;
   width: 100%;
   box-sizing: border-box;
 }
 
->>> .cte-datetime__container {
-  width: 250px;
-}
-
 >>> .cte-base__label {
-  padding: 5px 4px;
-  letter-spacing: .03em;
+  padding: 3px 4px;
 }
 </style>
