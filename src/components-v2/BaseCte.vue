@@ -1,8 +1,8 @@
 <template>
-  <div class="cte-text__container">
+  <div class="cte-base__container">
     <div
       v-if="!editing"
-      class="cte-text__label"
+      class="cte-base__label"
       @click="startEditing"
     >
       {{ value }}
@@ -26,9 +26,7 @@ export default {
   },
   data () {
     return {
-      editing: false,
-      internalValue: this.value,
-      demo: 5
+      editing: false
     }
   },
   methods: {
@@ -47,5 +45,9 @@ export default {
 </script>
 
 <style>
-
+.cte-base__container {
+  display: inline-block;
+  font-size: 16px;
+  font-family: Times;
+}
 </style>

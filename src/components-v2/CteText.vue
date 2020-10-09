@@ -48,11 +48,15 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .cte-text__input {
   font-size: inherit;
   font-family: inherit;
   width: 100%;
   box-sizing: border-box;
+}
+
+>>> .cte-base__label {
+  padding: 3px 4px;
 }
 </style>
