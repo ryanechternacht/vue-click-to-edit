@@ -2,6 +2,7 @@
   <div
     v-click-outside="clickedAway"
     class="cte-base__container"
+    @keydown.esc="editingCanceled"
   >
     <div
       v-if="!editing"
@@ -18,8 +19,13 @@
     >
       <slot name="edit-component" />
       <button
-        v-if="allowCancel"
-        class="cte-base__cancel"
+        v-if="requireConfirmation"
+        class="cte-base__button cte-base__button--confirm"
+        @click="editingConfirmed"
+      />
+      <button
+        v-if="showCancel"
+        class="cte-base__button cte-base__button--cancel"
         @click="editingCanceled"
       />
     </div>
@@ -41,11 +47,20 @@ export default {
     allowCancel: {
       type: Boolean,
       default: false
+    },
+    requireConfirmation: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
       editing: false
+    }
+  },
+  computed: {
+    showCancel () {
+      return this.allowCancel || this.requireConfirmation
     }
   },
   methods: {
@@ -56,7 +71,7 @@ export default {
       })
     },
     clickedAway () {
-      if (!this.editing) {
+      if (!this.editing || this.requireConfirmation) {
         return
       }
 
@@ -66,6 +81,10 @@ export default {
     editingCanceled () {
       this.editing = false
       this.editingCompleted(false)
+    },
+    editingConfirmed () {
+      this.editing = false
+      this.editingCompleted(true)
     },
     editingCompleted (committed) {
       this.$emit('editingCompleted', { committed })
@@ -95,21 +114,25 @@ export default {
   align-items: center;
 }
 
-.cte-base__cancel {
+.cte-base__button {
   margin-left: 8px;
-  color: red;
   padding: 3px 6px;
-  box-sizing: border-box;
   border: 1px solid #bbb;
   border-radius: 4px;
 }
 
-.cte-base__cancel:hover {
+.cte-base__button:hover {
   background-color: #ddd;
   cursor: pointer;
 }
 
-.cte-base__cancel::after {
-  content: "\2718";
+.cte-base__button--cancel::after {
+  color: red;
+  content: "✘";
+}
+
+.cte-base__button--confirm::after {
+  color: green;
+  content: "✔";
 }
 </style>

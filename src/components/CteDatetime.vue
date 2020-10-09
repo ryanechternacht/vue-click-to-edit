@@ -2,6 +2,7 @@
   <base-cte
     :value="internalValue"
     :allow-cancel="allowCancel"
+    :require-confirmation="requireConfirmation"
     @editingCompleted="editingCompleted"
     @focusInput="focusInput"
   >
@@ -39,6 +40,10 @@ export default {
       default: 'MM/dd/yyyy, hh:mm aa'
     },
     allowCancel: {
+      type: Boolean,
+      default: false
+    },
+    requireConfirmation: {
       type: Boolean,
       default: false
     }
