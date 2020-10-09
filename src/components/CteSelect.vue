@@ -1,29 +1,30 @@
 <template>
-  <div class="cte-select__container">
-    <div
-      v-if="!editing"
-      class="cte-select__label"
-      @click="startEditing"
-    >
-      {{ value }}
-    </div>
-    <select
-      v-else
-      ref="select"
-      v-model="internalValue"
-      v-bind="$attrs"
-      class="cte-select__select"
-      @blur="stopEditing"
-    >
-      <slot />
-    </select>
-  </div>
+  <base-cte
+    :value="internalValue"
+    @editingComplete="editingComplete"
+    @focusInput="focusInput"
+  >
+    <template #edit-component="{ blur }">
+      <select
+        ref="input"
+        v-model="internalValue"
+        class="cte-select__select"
+        v-bind="$attrs"
+        @blur="blur"
+      >
+        <slot />
+      </select>
+    </template>
+  </base-cte>
 </template>
 
 <script>
+import BaseCte from './BaseCte'
+
 export default {
-  name: 'CteText',
-  inheritAttrs: false,
+  components: {
+    BaseCte
+  },
   props: {
     value: {
       type: String,
@@ -32,48 +33,32 @@ export default {
   },
   data () {
     return {
-      editing: true,
       internalValue: this.value
     }
   },
-  watch: {
-    value () {
-      this.internalValue = this.value
-    }
-  },
   methods: {
-    startEditing () {
-      this.editing = true
-      this.$nextTick(() => {
-        this.$refs.select.focus()
-      })
+    editingComplete ({ committed }) {
+      if (committed) {
+        this.$emit('input', this.internalValue)
+        this.$emit('editingComplete', { newValue: this.internalValue })
+      }
     },
-    stopEditing () {
-      this.editing = false
-      this.$emit('input', this.internalValue)
-      this.$emit('editingComplete', { newValue: this.internalValue })
+    focusInput () {
+      this.$refs.input.focus()
     }
   }
 }
 </script>
 
-<style>
-.cte-select__container {
-  display: inline-block;
-  font-size: 16px;
-  font-family: Times;
-}
-
-.cte-select__label {
-  padding: 3px 4px;
-  font-size: inherit;
-  font-family: inherit;
-}
-
+<style scoped>
 .cte-select__select {
   font-size: inherit;
   font-family: inherit;
   width: 100%;
   box-sizing: border-box;
+}
+
+>>> .cte-base__label {
+  padding: 3px 4px;
 }
 </style>

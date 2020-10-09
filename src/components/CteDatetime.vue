@@ -1,34 +1,38 @@
 <template>
-  <div class="cte-datetime__container">
-    <div
-      v-if="!editing"
-      class="cte-datetime__label"
-      @click="startEditing"
-    >
+  <base-cte
+    :value="internalValue"
+    @editingComplete="editingComplete"
+    @focusInput="focusInput"
+  >
+    <template #display-component>
       {{ dateFormatted }}
-    </div>
-    <input
-      v-else
-      ref="textbox"
-      v-model="internalValue"
-      v-bind="$attrs"
-      class="cte-datetime__input"
-      type="datetime-local"
-      @blur="stopEditing"
-    >
-  </div>
+    </template>
+
+    <template #edit-component="{ blur }">
+      <input
+        ref="input"
+        v-model="internalValue"
+        type="datetime-local"
+        class="cte-datetime__input"
+        v-bind="$attrs"
+        @blur="blur"
+      >
+    </template>
+  </base-cte>
 </template>
 
 <script>
+import BaseCte from './BaseCte'
 import { parseISO, format } from 'date-fns'
 
 export default {
-  name: 'CteDateTime',
-  inheritAttrs: false,
+  components: {
+    BaseCte
+  },
   props: {
     value: {
       type: String,
-      default: null
+      default: ''
     },
     displayFormat: {
       type: String,
@@ -37,7 +41,6 @@ export default {
   },
   data () {
     return {
-      editing: false,
       internalValue: this.value
     }
   },
@@ -46,46 +49,34 @@ export default {
       return format(parseISO(this.internalValue), this.displayFormat)
     }
   },
-  watch: {
-    value () {
-      this.internalValue = this.value
-    }
-  },
   methods: {
-    startEditing () {
-      this.editing = true
-      this.$nextTick(() => {
-        this.$refs.textbox.focus()
-      })
+    editingComplete ({ committed }) {
+      if (committed) {
+        this.$emit('input', this.internalValue)
+        this.$emit('editingComplete', { newValue: this.internalValue })
+      }
     },
-    stopEditing () {
-      this.editing = false
-      this.$emit('input', this.internalValue)
-      this.$emit('editingComplete', { newValue: this.internalValue })
+    focusInput () {
+      this.$refs.input.focus()
     }
   }
 }
 </script>
 
-<style>
-.cte-datetime__container {
-  display: inline-block;
-  font-size: 16px;
-  font-family: Times;
-  width: 250px;
-}
-
-.cte-datetime__label {
-  padding: 5px 4px;
-  font-size: inherit;
-  font-family: inherit;
-  letter-spacing: .03em;
-}
-
+<style scoped>
 .cte-datetime__input {
   font-size: inherit;
   font-family: inherit;
   width: 100%;
   box-sizing: border-box;
+}
+
+>>> .cte-datetime__container {
+  width: 250px;
+}
+
+>>> .cte-base__label {
+  padding: 5px 4px;
+  letter-spacing: .03em;
 }
 </style>
