@@ -1,5 +1,6 @@
 <template>
   <base-cte
+    class="cte-textarea__container"
     :value="internalValue"
     :allow-cancel="allowCancel"
     :require-confirmation="requireConfirmation"
@@ -68,8 +69,8 @@ export default {
 </script>
 
 <style scoped>
->>> .cte-textarea__container {
-  width: 250px;
+.cte-textarea__container {
+  width: 200px;
 }
 
 .cte-textarea__input {
@@ -80,6 +81,6 @@ export default {
 }
 
 >>> .cte-base__label {
-  padding: 3px 4px;
+  padding: 3px 3px;
 }
 </style>

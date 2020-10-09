@@ -1,5 +1,6 @@
 <template>
   <base-cte
+    class="cte-datetime__container"
     :value="internalValue"
     :allow-cancel="allowCancel"
     :require-confirmation="requireConfirmation"
@@ -75,15 +76,15 @@ export default {
 </script>
 
 <style scoped>
+.cte-datetime__container {
+  width: 250px;
+}
+
 .cte-datetime__input {
   font-size: inherit;
   font-family: inherit;
   width: 100%;
   box-sizing: border-box;
-}
-
->>> .cte-datetime__container {
-  width: 250px;
 }
 
 >>> .cte-base__label {

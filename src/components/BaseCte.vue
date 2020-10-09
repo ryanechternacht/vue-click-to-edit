@@ -93,7 +93,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .cte-base__container {
   display: inline-block;
   font-size: 16px;
