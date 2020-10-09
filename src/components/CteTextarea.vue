@@ -12,7 +12,6 @@
         v-bind="attrs"
         @blur="blur"
       />
-      {{ attrs }}
     </template>
   </base-cte>
 </template>
