@@ -1,5 +1,8 @@
 <template>
-  <div class="cte-base__container">
+  <div
+    v-click-outside="clickedAway"
+    class="cte-base__container"
+  >
     <div
       v-if="!editing"
       class="cte-base__label"
@@ -9,21 +12,39 @@
         {{ value }}
       </slot>
     </div>
-    <slot
+    <div
       v-else
-      :blur="stopEditing"
-      name="edit-component"
-    />
+      class="cte-base__input"
+    >
+      <slot name="edit-component" />
+      <input
+        type="text"
+        style="width: 100px"
+      >
+      <button
+        v-if="allowCancel"
+        class="cte-base__cancel"
+        @click="editingCanceled"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside'
+
 export default {
-  name: 'BaseCte',
+  directives: {
+    ClickOutside
+  },
   props: {
     value: {
       type: String,
       default: ''
+    },
+    allowCancel: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -38,9 +59,20 @@ export default {
         this.$emit('focusInput')
       })
     },
-    stopEditing () {
+    clickedAway () {
+      if (!this.editing) {
+        return
+      }
+
       this.editing = false
-      this.$emit('editingComplete', { committed: true })
+      this.editingCompleted(true)
+    },
+    editingCanceled () {
+      this.editing = false
+      this.editingCompleted(false)
+    },
+    editingCompleted (committed) {
+      this.$emit('editingCompleted', { committed })
     }
   }
 }
@@ -60,5 +92,28 @@ export default {
 
 .cte-base__label:hover {
   text-decoration: underline;
+}
+
+.cte-base__input {
+  display: flex;
+  align-items: center;
+}
+
+.cte-base__cancel {
+  margin-left: 8px;
+  color: red;
+  padding: 3px 6px;
+  box-sizing: border-box;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+}
+
+.cte-base__cancel:hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.cte-base__cancel::after {
+  content: "\2718";
 }
 </style>

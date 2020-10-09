@@ -1,21 +1,20 @@
 <template>
   <base-cte
     :value="internalValue"
-    @editingComplete="editingComplete"
+    @editingCompleted="editingCompleted"
     @focusInput="focusInput"
   >
     <template #display-component>
       {{ dateFormatted }}
     </template>
 
-    <template #edit-component="{ blur }">
+    <template #edit-component>
       <input
         ref="input"
         v-model="internalValue"
         type="datetime-local"
         class="cte-datetime__input"
         v-bind="$attrs"
-        @blur="blur"
       >
     </template>
   </base-cte>
@@ -50,10 +49,12 @@ export default {
     }
   },
   methods: {
-    editingComplete ({ committed }) {
+    editingCompleted ({ committed }) {
       if (committed) {
         this.$emit('input', this.internalValue)
-        this.$emit('editingComplete', { newValue: this.internalValue })
+        this.$emit('editingCompleted', { committed, newValue: this.internalValue })
+      } else {
+        this.$emit('editingCompleted', { committed })
       }
     },
     focusInput () {

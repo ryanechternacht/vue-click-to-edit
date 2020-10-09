@@ -1,16 +1,15 @@
 <template>
   <base-cte
     :value="internalValue"
-    @editingComplete="editingComplete"
+    @editingCompleted="editingCompleted"
     @focusInput="focusInput"
   >
-    <template #edit-component="{ blur }">
+    <template #edit-component>
       <textarea
         ref="input"
         v-model="internalValue"
         class="cte-textarea__input"
         v-bind="attrs"
-        @blur="blur"
       />
     </template>
   </base-cte>
@@ -43,10 +42,12 @@ export default {
     }
   },
   methods: {
-    editingComplete ({ committed }) {
+    editingCompleted ({ committed }) {
       if (committed) {
         this.$emit('input', this.internalValue)
-        this.$emit('editingComplete', { newValue: this.internalValue })
+        this.$emit('editingCompleted', { committed, newValue: this.internalValue })
+      } else {
+        this.$emit('editingCompleted', { committed })
       }
     },
     focusInput () {
