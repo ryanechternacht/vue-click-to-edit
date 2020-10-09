@@ -57,4 +57,8 @@ export default {
   font-size: inherit;
   font-family: inherit;
 }
+
+.cte-base__label:hover {
+  text-decoration: underline;
+}
 </style>
