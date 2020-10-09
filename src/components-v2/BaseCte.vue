@@ -5,7 +5,9 @@
       class="cte-base__label"
       @click="startEditing"
     >
-      {{ value }}
+      <slot name="display-component">
+        {{ value }}
+      </slot>
     </div>
     <slot
       v-else
@@ -49,5 +51,10 @@ export default {
   display: inline-block;
   font-size: 16px;
   font-family: Times;
+}
+
+.cte-base__label {
+  font-size: inherit;
+  font-family: inherit;
 }
 </style>
