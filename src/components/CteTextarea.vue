@@ -10,8 +10,8 @@
     <textarea
       v-else
       ref="textbox"
-      rows="6"
       v-model="internalValue"
+      rows="6"
       v-bind="$attrs"
       class="cte-textarea__input"
       @blur="stopEditing"
